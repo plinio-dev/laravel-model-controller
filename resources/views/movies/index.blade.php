@@ -15,6 +15,7 @@
          <h3>{{$movie->title}}</h3>
          <h4>{{$movie->author}}</h4>
          <p>{{$movie->genre}}</p>
+         <a href="{{route('movies.show', [ 'movie' => $movie->id ])}}">Dettaglio film</a>
       </li>   
       @endforeach
    </ul>   
