@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <link rel="stylesheet" href="{{asset('css/app.css')}}">
-   <title>Lista di tutti i film</title>
-</head>
-<body>
-   <h1>Lista di tutti i film</h1>
+@extends('layouts.base')
 
-   <ul>
+@section('pageTitle')
+    Lista dei nostri film
+@endsection
+
+@section('content')
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th scope="col">Titolo</th>
+            <th scope="col">Regista</th>
+            <th scope="col">Generi</th>
+            <th scope="col">Azioni</th>
+         </tr>
+      </thead>
       @foreach ($movies as $movie)
-      <li>
-         <h3>{{$movie->title}}</h3>
-         <h4>{{$movie->author}}</h4>
-         <p>{{$movie->genre}}</p>
-         <a href="{{route('movies.show', [ 'movie' => $movie->id ])}}">Dettaglio film</a>
-      </li>   
+      <tr>
+         <td>{{$movie->title}}</td>
+         <td>{{$movie->author}}</td>
+         <td>{{$movie->genre}}</td>
+         <td><a href="{{route('movies.show', [ 'movie' => $movie->id ])}}">Dettaglio film</a></td>
+      </tr>   
       @endforeach
-   </ul>   
-</body>
-</html>
-
+   </table> 
+@endsection
