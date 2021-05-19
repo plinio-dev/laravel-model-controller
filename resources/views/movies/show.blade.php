@@ -2,7 +2,7 @@
 @extends('layouts.base')
 
 @section('pageTitle')
-   <h1>{{$movie->title}}</h1>
+   {{$movie->title}}
 @endsection
 
 @section('content')
