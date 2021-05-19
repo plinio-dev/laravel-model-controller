@@ -16,8 +16,8 @@
    </div>
    @endif
 
-   <form action="{{route('movies.store')}}" method="POST">
-      @method('POST')
+   <form action="{{route('movies.update', ['movie' => $movie->id])}}" method="POST">
+      @method('PUT')
       @csrf
       <div class="form-group">
 			<label for="cover_image">Immagine Cover</label>
@@ -29,16 +29,16 @@
 			<input type="text" class="form-control" id="title" name="title" placeholder="Titolo" value="{{old('title') ? old('title') : $movie->title}}">
 		</div>
 		<div class="form-group">
-			<label for="film_director">Regista</label>
-			<input type="text" class="form-control" id="film_director" name="film_director" placeholder="Regista" value="{{old('film_director') ? old('film_director') : $movie->film_director}}">
+			<label for="author">Regista</label>
+			<input type="text" class="form-control" id="author" name="author" placeholder="Regista" value="{{old('author') ? old('author') : $movie->author}}">
 		</div>
 		<div class="form-group">
-			<label for="genres">Generi</label>
-			<input type="text" class="form-control" id="genres" name="genres" placeholder="Generi" value="{{old('genres') ? old('genres') : $movie->genres}}">
+			<label for="genre">Generi</label>
+			<input type="text" class="form-control" id="genre" name="genre" placeholder="Generi" value="{{old('genre') ? old('genre') : $movie->genre}}">
 		</div>
 		<div class="form-group">
-			<label for="plot">Trama</label>
-			<textarea class="form-control" id="plot" name="plot" rows="8" placeholder="Trama...">{{old('plot') ? old('plot') : $movie->plot}}</textarea>
+			<label for="description">Trama</label>
+			<textarea class="form-control" id="plot" name="description" rows="8" placeholder="Trama...">{{old('description') ? old('description') : $movie->description}}</textarea>
 		</div>
 		<div class="form-group">
 			<label for="year">Anno</label>

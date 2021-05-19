@@ -16,7 +16,7 @@ class MovieController extends Controller
         $this->requestValidation = [
             'title' => 'required|string|max:100',
             'author' => 'required|string|max:50',
-            'genres' => 'required|string|max:50',
+            'genre' => 'required|string|max:50',
             'description' => 'required|string',
             'year' => 'required|numeric|min:1900|max:'.$year
         ];
@@ -111,9 +111,19 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Movie $movie)
     {
-        //
+        $data = $request->all();
+
+        if ( $data['cover_image'] === NULL ) {
+            unset($data['cover_image']);
+        }
+
+        $request->validate($this->requestValidation);
+
+        $movie->update( $data );
+
+        return redirect()->route('movies.show', $movie);
     }
 
     /**
