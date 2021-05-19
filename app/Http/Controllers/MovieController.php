@@ -7,6 +7,22 @@ use App\Movie;
 
 class MovieController extends Controller
 {
+    protected $requestValidation = [];
+
+    public function __construct()
+    {
+        $year = date("Y") + 1;
+
+        $this->requestValidation = [
+            'title' => 'required|string|max:100',
+            'author' => 'required|string|max:50',
+            'genres' => 'required|string|max:50',
+            'description' => 'required|string',
+            'year' => 'required|numeric|min:1900|max:'.$year
+        ];
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -35,9 +51,36 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $year = date("Y") + 1;
+
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'author' => 'required|string|max:50',
+            'genre' => 'required|string|max:50',
+            'description' => 'required|string',
+            'year' => 'required|numeric|min:1900|max:'.$year
+        ]);
+
+        $data = $request->all();
+
+        $movieNew = new Movie();
+        $movieNew->title = $data['title'];
+        $movieNew->author = $data['author'];
+        $movieNew->genre = $data['genre'];
+        $movieNew->description = $data['description'];
+        $movieNew->year = $data['year'];
+
+        if( !empty($data['cover_image']) ) {
+            $movieNew->cover_image = $data['cover_image'];
+        }
+
+        $movieNew->save();
+
+        return redirect()->route('movies.show', $movieNew);
+
     }
+
 
     /**
      * Display the specified resource.
@@ -56,9 +99,9 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Movie $movie)
     {
-        //
+        return view('movies.edit', ['movie' => $movie]);
     }
 
     /**
@@ -79,8 +122,10 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Movie $movie)
     {
-        //
+        $movie->delete();
+
+        return redirect()->route('movies.index')->with('message', 'Il film è stato eliminato');
     }
 }
