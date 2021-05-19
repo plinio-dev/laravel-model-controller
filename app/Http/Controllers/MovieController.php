@@ -52,32 +52,33 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {   
-        $year = date("Y") + 1;
-
-        $request->validate([
-            'title' => 'required|string|max:100',
-            'author' => 'required|string|max:50',
-            'genre' => 'required|string|max:50',
-            'description' => 'required|string',
-            'year' => 'required|numeric|min:1900|max:'.$year
-        ]);
-
         $data = $request->all();
 
-        $movieNew = new Movie();
-        $movieNew->title = $data['title'];
-        $movieNew->author = $data['author'];
-        $movieNew->genre = $data['genre'];
-        $movieNew->description = $data['description'];
-        $movieNew->year = $data['year'];
-
-        if( !empty($data['cover_image']) ) {
-            $movieNew->cover_image = $data['cover_image'];
+        if ( $data['cover_image'] === NULL ) {
+            unset($data['cover_image']);
         }
 
-        $movieNew->save();
+        $request->validate($this->requestValidation);
 
-        return redirect()->route('movies.show', $movieNew);
+        $movieNew = Movie::create($data);
+        
+        $year = date("Y") + 1;
+
+    
+        // $movieNew = new Movie();
+        // $movieNew->title = $data['title'];
+        // $movieNew->author = $data['author'];
+        // $movieNew->genre = $data['genre'];
+        // $movieNew->description = $data['description'];
+        // $movieNew->year = $data['year'];
+
+        // if( !empty($data['cover_image']) ) {
+        //     $movieNew->cover_image = $data['cover_image'];
+        // }
+
+        // $movieNew->save();
+
+        return redirect()->route('movies.index')->with('message', 'Il film ' . $movieNew->title . ' è stato aggiunto');
 
     }
 
